@@ -1,7 +1,7 @@
 # BYU ACM Website Revamp
 Winter 2015 website redesign
 
-![ACM icon](https://avatars2.githubusercontent.com/u/2940616?v=3&s=200 =100x)
+<img src="https://avatars2.githubusercontent.com/u/2940616?v=3&s=200" alt="ACM icon" height="100px">
 
 ## Overview
 
