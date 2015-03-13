@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Event;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
@@ -34,7 +35,8 @@ public class Application extends Controller {
 
 	@Transactional
 	public static Result addEvent() {
-		Event event = new Event();
+		JsonNode eventNode = request().body().asJson();
+		Event event = Json.fromJson(eventNode, Event.class);
 		JPA.em().persist(event);
 		return redirect(controllers.routes.Application.getEvents());
 	}
