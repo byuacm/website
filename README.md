@@ -18,14 +18,14 @@ This repository is for the BYU ACM website at [acm.byu.edu](<http://acm.byu.edu>
 
 * The frontend is built using [AngularJS](<https://angularjs.org>).
 
-* We are using [MySQL 5.6.23](<http://dev.mysql.com/downloads/>) and the [Java Persistence API](<http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html>)
+* Data is stored using [MySQL 5.6.23](<http://dev.mysql.com/downloads/>) and the [Java Persistence API](<http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html>)
 
 ## Development
 
 1. Start the Play console using Activator by typing `./activator` (Unix-based) or `activator.bat` (~~Microsoft's piece of crap~~ Windows)
 2. Run the application by typing `~run` in the Activator console. The `~` will automatically recompile any project files as you change them.
 
-## Deploying
+## Deploying Changes
 
 1. TODO
 
