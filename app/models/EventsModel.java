@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Event {
+public class EventsModel {
     @Id
     @GeneratedValue
     public Long id;
@@ -22,13 +22,13 @@ public class Event {
 	public String description;
 
 
-	public Event() {
+	public EventsModel() {
 		this.name = "";
 		this.date = new Date();
 		this.description = "";
 	}
 
-	public Event(String name, Date date, String description) {
+	public EventsModel(String name, Date date, String description) {
 		this.name = name;
 		this.date = date;
 		this.description = description;
