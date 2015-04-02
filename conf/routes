@@ -7,7 +7,6 @@ GET			/					controllers.Assets.at(path="/public", file="index.html")
 
 # Events
 GET			/events				controllers.EventsController.getEvents()
-POST		/events/add			controllers.EventsController.addEvent()
 
 # Challenges
 GET			/challenges			controllers.ChallengesController.getChallenges()
