@@ -10,9 +10,12 @@ libraryDependencies ++= Seq(
   javaJdbc,
   javaJpa,
   "org.hibernate" % "hibernate-entitymanager" % "4.3.8.Final",
+  "org.hibernate" % "hibernate-jpamodelgen" % "4.3.8.Final",
   cache,
-  javaWs
+  javaWs,
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
+javacOptions ++= Seq("-s", "metamodel")
 
 fork in run := true

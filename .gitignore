@@ -15,3 +15,5 @@ dist
 /.settings
 /bin/
 conf/production.conf
+/.apt_generated/
+/metamodel/
