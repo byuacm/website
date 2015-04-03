@@ -10,8 +10,10 @@ import com.typesafe.config.ConfigFactory;
 public class EventsController extends Controller {
 
 	public static Promise<Result> getEvents() {
-		String apiKey = ConfigFactory.load().getString("application.calendar_api_key");
-		String calendarRequestURL = "https://www.googleapis.com/calendar/v3/calendars/cs.byu.acm%40gmail.com/events"
+		String apiKey = ConfigFactory.load().getString("application.calendarApiKey");
+		String calendarRequestURL = "https://www.googleapis.com/calendar/v3/calendars/"
+				+ "cs.byu.acm%40gmail.com/"
+				+ "events"
 				+ "?fields=items%28description%2Cend%2ChtmlLink%2Clocation%2Cstart%2Csummary%29"
 				+ "&key=" + apiKey;
 
