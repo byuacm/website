@@ -27,7 +27,7 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static Result register() {
+	public static Result registerCas() {
 		try {
 			String netId = authenticateCas().get(TIMEOUT_LENGTH);
 			User user = getUser(netId);
@@ -46,7 +46,7 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static Result login() {
+	public static Result loginCas() {
 		try {
 			String netId = authenticateCas().get(TIMEOUT_LENGTH);
 			Logger.debug("authenticated user");

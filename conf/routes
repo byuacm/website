@@ -14,9 +14,8 @@ GET			/challenges/:id		controllers.ChallengesController.getChallenge(id: Long)
 
 # User pages
 GET			/profile/:id		controllers.UsersController.getProfile(id: Long)
-GET			/register/cas		controllers.UsersController.register()
-GET			/login/cas			controllers.UsersController.login()
-# GET			/authenticate/cas	controllers.UsersController.authenticateCas()
+GET			/register/cas		controllers.UsersController.registerCas()
+GET			/login/cas			controllers.UsersController.loginCas()
 
 # As a last resort, try to find a static file that matches the request.
 GET			/*file				controllers.Assets.at(path="/public", file)
