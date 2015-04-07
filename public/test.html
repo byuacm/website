@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Case</title>
+  <title>BYU ACM</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -25,6 +25,20 @@
   	.no-border {
 		border: 0;
   	}
+  	.banner {
+      background-color: LightGray;
+      margin: 0 -15px;
+    }
+    .banner-text {
+  		padding: 5px;
+  	}
+  	.navbar {
+  		margin: 0;
+  	}
+    img {
+        width: 100%;
+        height: auto;
+    }
   </style>
 </head>
 <body>
@@ -45,7 +59,6 @@
     <div>
       <ul class="nav navbar-nav navbar-collapse collapse" id="pages">
         <li class="active"><a href="#">Home</a></li>
-        <li class="dropdown">
         <li><a href="#">Challenges</a></li>
         <li><a href="#">Partner with Us</a></li>
         <li><a href="#">Club Roster</a></li>
@@ -58,24 +71,29 @@
   </div>
 </nav>
 <div class="container">
-  <div style="background-color:LightGray">
-    <h1>Welcome to BYU ACM!</h1>      
-    <p>We are the largest CS club at BYU. We prepare students to become great software</p>      
+  <div class="banner center-text">
+    <img src="images/coding-competition-W2015.jpg">
+    <div class="banner-text">
+      <h1 class="">We are BYU ACM!</h1>      
+      <p>We are BYU's software engineering club. We prepare students to become great software engineers and connect them with great companies.</p>      
+    </div>
   </div>
 
   <div class="row">
-    <div class="col-md-3 block">
+    <div class="col-md-4 block">
       <h3 class="center-text">Events</h3>
+      <p>These are our events.</p>
     </div>
-    <div class="col-md-3 block"> 
+    <div class="col-md-4 block">
       <h3 class="center-text">Partner with Us</h3>
+      <p>This is how to partner with us.</p>
     </div>
-    <div class="col-md-3 block"> 
+    <div class="col-md-4 block"> 
       <h3 class="center-text">About Us</h3>
+      <p>This is about us.</p>
     </div>
     <div class="clearfix visible-lg"></div>
   </div>
 </div>
-
 </body>
 </html>
