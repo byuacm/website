@@ -30,6 +30,11 @@ angular.module('acm', ['ui.router'])
   '$scope',
   '$state',
   function($scope, $state){
-	//console.log($state.$current.name);
+	var st = $state;
+	$scope.state = st;
+	$scope.isActive = function(state) {
+		console.log("passed in: " + state + " | curr state: " + st.current.name);
+		return state === st.current.name;
+	};
   }
 ]);

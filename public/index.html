@@ -62,10 +62,10 @@
     </div>
     <div>
       <ul class="nav navbar-nav navbar-collapse collapse" id="pages">
-        <li class="active"><a href="#/">Home</a></li>
-        <li><a href="#/challenges">Challenges</a></li>
-        <li><a href="#/partner">Partner with Us</a></li>
-        <li><a href="#/roster">Club Roster</a></li>
+        <li ng-class="{ active : isActive('home')}"><a href="#/">Home</a></li>
+        <li ng-class="{ active : isActive('challenges')}"><a href="#/challenges">Challenges</a></li>
+        <li ng-class="{ active : isActive('partner')}"><a href="#/partner">Partner with Us</a></li>
+        <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
