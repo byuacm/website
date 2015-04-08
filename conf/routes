@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET			/					controllers.Assets.at(path="/public", file="test.html")
+GET			/					controllers.Assets.at(path="/public", file="index.html")
 
 # Events
 GET			/events				controllers.EventsController.getEvents()
