@@ -16,6 +16,7 @@ import play.libs.F.Promise;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.close;
 
 public class UsersController extends Controller {
 
@@ -38,10 +39,10 @@ public class UsersController extends Controller {
 				Logger.debug("registered user with netId" + netId + " and userId " + user.id);
 			}
 			session("userAuth", String.valueOf(user.id));
-			return ok(String.valueOf(user.id));
+			return ok(close.render("Success"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return badRequest("unable to authenticate user with CAS");
+			return badRequest(close.render("Unable to authenticate user with CAS"));
 		}
 	}
 
@@ -58,11 +59,11 @@ public class UsersController extends Controller {
 			else {
 				session("userAuth", String.valueOf(user.id));
 				Logger.debug("logged in user with netId " + netId + " and userId " + user.id);
-				return ok(String.valueOf(user.id));
+				return ok(close.render("Success"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return badRequest("unable to authenticate user with CAS");
+			return badRequest(close.render("Unable to authenticate user with CAS"));
 		}
 	}
 

@@ -40,12 +40,32 @@ angular.module('acm', ['ui.router'])
 	};
 	$scope.logIn = function() {
 		// check for cookie first
-		var window = $window.open('https://cas.byu.edu/cas/login?service=http://localhost:9000/cas/login');
+		var window = $window.open(
+			'https://cas.byu.edu/cas/login?service=http://localhost:9000/login/cas',
+			'targetWindow',
+			'toolbar=no,' +
+			'location=no,' +
+			'status=no,' +
+			'menubar=no,' +
+			'scrollbars=yes,' +
+			'resizeable=yes,' +
+			'width=600,' +
+			'height=650');
 		$scope.loggedIn = true;
 	};
 	$scope.register = function() {
 		// check for cookie
-		var window = $window.open('https://cas.byu.edu/cas/login?service=http://localhost:9000/cas/register');
+		var window = $window.open(
+			'https://cas.byu.edu/cas/login?service=http://localhost:9000/register/cas',
+			'targetWindow',
+			'toolbar=no,' +
+			'location=no,' +
+			'status=no,' +
+			'menubar=no,' +
+			'scrollbars=yes,' +
+			'resizeable=yes,' +
+			'width=600,' +
+			'height=650');
 		$scope.loggedIn = true;
 	};
 	$scope.logOut = function() {
