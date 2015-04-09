@@ -1,4 +1,4 @@
-angular.module('acm', ['ui.router', 'ngCookies'])
+angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 .config([
 	'$stateProvider',
 	'$urlRouterProvider',
@@ -11,7 +11,7 @@ angular.module('acm', ['ui.router', 'ngCookies'])
 		.state('challenges', {
 			url: '/challenges',
 			templateUrl: '/html/challenges.html',
-			//controller: 'ChallengesCtrl'
+			controller: 'ChallengesCtrl'
 		})
 		.state('partner', {
 			url: '/partner',
@@ -32,17 +32,15 @@ angular.module('acm', ['ui.router', 'ngCookies'])
   '$window',
   function($scope, $state, $window, $cookies){
 	function checkCookie() {
-		console.log("Here");
-		console.log($cookies);
 		return false;
 	}
 	  
-	$scope.loggedIn = checkCookie(); 
+	var loggedIn = checkCookie(); 
 	$scope.isActive = function(state) {
 		return state === $state.current.name;
 	};
 	$scope.isLoggedIn = function() {
-		return $scope.loggedIn;
+		return loggedIn;
 	};
 	$scope.logIn = function() {
 		// check for cookie first
@@ -61,8 +59,7 @@ angular.module('acm', ['ui.router', 'ngCookies'])
 		window.onbeforeunload = function(event) {
 			
 		};
-		console.log(window);
-		$scope.loggedIn = true;
+		loggedIn = true;
 	};
 	$scope.register = function() {
 		// check for cookie
@@ -81,7 +78,7 @@ angular.module('acm', ['ui.router', 'ngCookies'])
 		window.onbeforeunload = function(event) {
 			
 		};
-		$scope.loggedIn = true;
+		loggedIn = true;
 	};
 	$scope.checkIn = function() {
 		// Check in to the current meeting - only if there is one
@@ -93,7 +90,45 @@ angular.module('acm', ['ui.router', 'ngCookies'])
 		window.onbeforeunload = function(event) {
 			
 		};
-		$scope.loggedIn = false;
+		loggedIn = false;
 	};
   }
+])
+.factory('challengeFactory', ['$http', function($http) {
+	var o = {
+		challenges: [],
+		openChallenges: [],
+		challenge: {}
+	};
+	o.getAll = function() {
+		return $http.get('/challenges').success(function(data) {
+			angular.copy(data, o.challenges);
+		});
+	};
+	o.getOpen = function() {
+		return $http.get('/challenges/open').success(function(data) {
+			angular.copy(data, o.openChallenges);
+		});
+	};
+	return o;
+}])
+.controller('ChallengesCtrl', [
+	'$scope',
+	'challengeFactory',
+	function($scope, challengeFactory) {
+		challengeFactory.getAll();
+		$scope.challenges = challengeFactory.challenges;
+		
+		challengeFactory.getOpen();
+		var open = challengeFactory.openChallenges;
+		
+		$scope.isChallengeDisabled = function(id) {
+			for (var i = 0; i < open.length; i++) {
+				if (open[i].id == id) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
 ]);
