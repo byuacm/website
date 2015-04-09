@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 
@@ -22,6 +24,7 @@ public class User {
 	public String password;
 	public String email;
 	@OneToMany(cascade = { CascadeType.ALL })
+	@JsonIgnore
 	public List<AuthenticationMethod> authMethods;
 
 	public User() {
