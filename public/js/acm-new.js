@@ -29,9 +29,29 @@ angular.module('acm', ['ui.router'])
 .controller('MainCtrl', [
   '$scope',
   '$state',
-  function($scope, $state){
+  '$window',
+  function($scope, $state, $window){
+	$scope.loggedIn = false; // just for now 
 	$scope.isActive = function(state) {
 		return state === $state.current.name;
+	};
+	$scope.isLoggedIn = function() {
+		return $scope.loggedIn; // here we need to check for the cookie
+	};
+	$scope.logIn = function() {
+		// check for cookie first
+		var window = $window.open('https://cas.byu.edu/cas/login?service=http://localhost:9000/cas/login');
+		$scope.loggedIn = true;
+	};
+	$scope.register = function() {
+		// check for cookie
+		var window = $window.open('https://cas.byu.edu/cas/login?service=http://localhost:9000/cas/register');
+		$scope.loggedIn = true;
+	};
+	$scope.logOut = function() {
+		// check for NO cookie
+		var window = $window.open('https://cas.byu.edu/cas/logout');
+		$scope.loggedIn = false;
 	};
   }
 ]);

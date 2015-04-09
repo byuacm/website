@@ -43,6 +43,9 @@
         width: 100%;
         height: auto;
     }
+	a {
+		cursor: pointer;
+	}
   </style>
 </head>
 <body ng-app="acm" ng-controller="MainCtrl">
@@ -68,8 +71,9 @@
         <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li ng-if="isLoggedIn() == false"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li ng-if="isLoggedIn() == false"><a ng-click="logIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		<li ng-if="isLoggedIn() == true"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
