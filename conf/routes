@@ -9,8 +9,11 @@ GET			/					controllers.Assets.at(path="/public", file="index.html")
 GET			/events				controllers.EventsController.getEvents()
 
 # Challenges
-GET			/challenges			controllers.ChallengesController.getChallenges()
-GET			/challenges/:id		controllers.ChallengesController.getChallenge(id: Long)
+GET			/challenges				controllers.ChallengesController.getChallenges()
+GET			/challenges/open		controllers.ChallengesController.getOpenChallenges()
+POST		/challenges/create		controllers.ChallengesController.createChallenge()
+GET			/challenges/delete/:id	controllers.ChallengesController.deleteChallenge(id: Long)
+GET			/challenges/:id			controllers.ChallengesController.getChallenge(id: Long)
 
 # User pages
 GET			/profile/:id		controllers.UsersController.getProfile(id: Long)
