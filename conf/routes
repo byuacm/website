@@ -3,10 +3,10 @@
 # ~~~~
 
 # Home page
-GET			/					controllers.Assets.at(path="/public", file="index.html")
+GET			/						controllers.Assets.at(path="/public", file="index.html")
 
 # Events
-GET			/events				controllers.EventsController.getEvents()
+GET			/events					controllers.EventsController.getEvents()
 
 # Challenges
 GET			/challenges				controllers.ChallengesController.getChallenges()
@@ -22,4 +22,4 @@ GET			/register/cas			controllers.UsersController.registerCas()
 GET			/login/cas				controllers.UsersController.loginCas()
 
 # As a last resort, try to find a static file that matches the request.
-GET			/*file				controllers.Assets.at(path="/public", file)
+GET			/*file					controllers.Assets.at(path="/public", file)
