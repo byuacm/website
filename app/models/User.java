@@ -37,4 +37,12 @@ public class User {
 		this.password = BCrypt.hashpw("", this.salt);
 		this.authMethods = new ArrayList<AuthenticationMethod>();
 	}
+
+	public static User sanitize(User user) {
+		User newUser = new User();
+		newUser.id = user.id;
+		newUser.username = user.username;
+		newUser.email = user.email;
+		return newUser;
+	}
 }

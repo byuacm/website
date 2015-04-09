@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -34,7 +35,13 @@ public class UsersController extends Controller {
 		Root<User> root = cq.from(User.class);
 		CriteriaQuery<User> all = cq.select(root);
 		TypedQuery<User> allQuery = JPA.em().createQuery(all);
-		JsonNode jsonNodes = Json.toJson(allQuery.getResultList());
+
+		List<User> users = allQuery.getResultList();
+		users = users
+				.stream()
+				.map(User::sanitize)
+				.collect(Collectors.toList());
+		JsonNode jsonNodes = Json.toJson(users);
 
 		Logger.debug("got all users");
 		return ok(jsonNodes);
@@ -54,7 +61,9 @@ public class UsersController extends Controller {
 		}
 		else {
 			Logger.debug("found user with id=" + id);
-			JsonNode json = Json.toJson(results.get(0));
+			User user = results.get(0);
+			JsonNode json = Json.toJson(User.sanitize(user));
+
 			return ok(json);
 		}
 	}
