@@ -1,4 +1,4 @@
-angular.module('acm', ['ui.router'])
+angular.module('acm', ['ui.router', 'ngCookies'])
 .config([
 	'$stateProvider',
 	'$urlRouterProvider',
@@ -30,13 +30,19 @@ angular.module('acm', ['ui.router'])
   '$scope',
   '$state',
   '$window',
-  function($scope, $state, $window){
-	$scope.loggedIn = false; // just for now 
+  function($scope, $state, $window, $cookies){
+	function checkCookie() {
+		console.log("Here");
+		console.log($cookies);
+		return false;
+	}
+	  
+	$scope.loggedIn = checkCookie(); 
 	$scope.isActive = function(state) {
 		return state === $state.current.name;
 	};
 	$scope.isLoggedIn = function() {
-		return $scope.loggedIn; // here we need to check for the cookie
+		return $scope.loggedIn;
 	};
 	$scope.logIn = function() {
 		// check for cookie first
@@ -51,6 +57,11 @@ angular.module('acm', ['ui.router'])
 			'resizeable=yes,' +
 			'width=600,' +
 			'height=650');
+			
+		window.onbeforeunload = function(event) {
+			
+		};
+		console.log(window);
 		$scope.loggedIn = true;
 	};
 	$scope.register = function() {
@@ -66,6 +77,10 @@ angular.module('acm', ['ui.router'])
 			'resizeable=yes,' +
 			'width=600,' +
 			'height=650');
+			
+		window.onbeforeunload = function(event) {
+			
+		};
 		$scope.loggedIn = true;
 	};
 	$scope.checkIn = function() {
@@ -74,6 +89,10 @@ angular.module('acm', ['ui.router'])
 	$scope.logOut = function() {
 		// check for NO cookie
 		var window = $window.open('https://cas.byu.edu/cas/logout');
+		
+		window.onbeforeunload = function(event) {
+			
+		};
 		$scope.loggedIn = false;
 	};
   }
