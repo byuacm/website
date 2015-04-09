@@ -71,38 +71,16 @@
         <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
-        <li ng-if="isLoggedIn() == false"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li ng-if="isLoggedIn() == false"><a ng-click="logIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-		<li ng-if="isLoggedIn() == true"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        <li ng-if="!isLoggedIn()"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li ng-if="!isLoggedIn()"><a ng-click="logIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		<li ng-if="isLoggedIn()"><a ng-click="checkIn()"><span class="glyphicon glyphicon-map-marker"></span> Meeting Check-In</a></li>
+		<li ng-if="isLoggedIn()"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
       </ul>
     </div>
   </div>
 </nav>
 <div class="container">
 	<ui-view></ui-view>
-  <!--<div class="banner center-text">
-    <img src="images/coding-competition-W2015.jpg">
-    <div class="banner-text">
-      <h1 class="">We are BYU ACM!</h1>      
-      <p>We are BYU's software engineering club. We prepare students to become great software engineers and connect them with great companies.</p>      
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4 block">
-      <h3 class="center-text">Events</h3>
-      <p>These are our events.</p>
-    </div>
-    <div class="col-md-4 block">
-      <h3 class="center-text">Partner with Us</h3>
-      <p>This is how to partner with us.</p>
-    </div>
-    <div class="col-md-4 block"> 
-      <h3 class="center-text">About Us</h3>
-      <p>This is about us.</p>
-    </div>
-    <div class="clearfix visible-lg"></div>
-  </div>-->
 </div>
 </body>
 </html>

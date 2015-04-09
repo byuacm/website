@@ -48,6 +48,9 @@ angular.module('acm', ['ui.router'])
 		var window = $window.open('https://cas.byu.edu/cas/login?service=http://localhost:9000/cas/register');
 		$scope.loggedIn = true;
 	};
+	$scope.checkIn = function() {
+		// Check in to the current meeting - only if there is one
+	};
 	$scope.logOut = function() {
 		// check for NO cookie
 		var window = $window.open('https://cas.byu.edu/cas/logout');
