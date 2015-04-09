@@ -20,7 +20,9 @@ public class User {
 	@GeneratedValue
 	public Long id;
 	public String username;
+	@JsonIgnore
 	public String salt;
+	@JsonIgnore
 	public String password;
 	public String email;
 	@OneToMany(cascade = { CascadeType.ALL })
