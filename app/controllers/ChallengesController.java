@@ -87,14 +87,14 @@ public class ChallengesController extends Controller {
 	@Transactional
 	public static Result createChallenge() {
 		try {
-			Map<String, String[]> reqBody = request().body().asFormUrlEncoded();
-			String name = reqBody.get("name")[0];
-			Timestamp start = Timestamp.valueOf(reqBody.get("start")[0]);
-			Timestamp end = Timestamp.valueOf(reqBody.get("end")[0]);
-			String question = reqBody.get("question")[0];
-			String solution = reqBody.get("solution")[0];
+			JsonNode json = request().body().asJson();
+			String name = json.findPath("name").textValue();
+			Timestamp startTime = Timestamp.valueOf(json.findPath("startTime").textValue());
+			Timestamp endTime = Timestamp.valueOf(json.findPath("endTime").textValue());
+			String question = json.findPath("question").textValue();
+			String solution = json.findPath("solution").textValue();
 
-			Challenge newChallenge = new Challenge(name, start, end, question, solution);
+			Challenge newChallenge = new Challenge(name, startTime, endTime, question, solution);
 			JPA.em().persist(newChallenge);
 
 			Logger.debug("created challenge with name=" + name);
