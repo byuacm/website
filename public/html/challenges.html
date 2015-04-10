@@ -1,0 +1,21 @@
+<h2>Challenges:</h2>
+<accordion close-others="true">
+    <accordion-group ng-repeat="challenge in challenges | orderBy: ['-endTime','name']" is-disabled="isChallengeDisabled(challenge.id)">
+		<accordion-heading>
+			<span ng-class="{'text-muted' : isChallengeDisabled(challenge.id)}">
+				{{challenge.name}} {{isChallengeDisabled(challenge.id) ? '(Closed)' : ''}}<span class="glyphicon glyphicon-remove pull-right" style="color: red;"></span><span class="glyphicon glyphicon-ok pull-right" style="color: green;"></span>
+			</span>
+		</accordion-heading>
+		<ul>
+			<li>Starts: {{challenge.startTime | date:"EEEE MMMM d, yyyy 'at' h:mm a"}}</li>
+			<li>Ends: {{challenge.endTime | date:"EEEE MMMM d, yyyy 'at' h:mm a"}}</li>
+			<li>Question: {{challenge.question}}</li>
+		</ul>
+    </accordion-group>
+</accordion>
+
+<h4>curl request to create an open test challenge:</h4>
+curl -X POST --data 'name=test&start=2014-05-01 12:00:00&end=2016-06-01 23:59:59&question=something&solution=solution' http://localhost:9000/challenges/create
+
+<h4>curl request to create a closed test challenge:</h4>
+curl -X POST --data 'name=test&start=2014-05-01 12:00:00&end=2014-06-01 23:59:59&question=something&solution=solution' http://localhost:9000/challenges/create

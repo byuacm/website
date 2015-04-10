@@ -1,7 +1,9 @@
 package controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -9,21 +11,61 @@ import javax.persistence.criteria.Root;
 import models.AuthenticationMethod;
 import models.AuthenticationMethod_;
 import models.User;
+import models.User_;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.libs.F.Promise;
+import play.libs.Json;
 import play.libs.ws.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.close;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class UsersController extends Controller {
 
 	private static final long TIMEOUT_LENGTH = 5000L;
 
 	@Transactional
+	public static Result getProfiles() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		CriteriaQuery<User> all = cq.select(root);
+		TypedQuery<User> allQuery = JPA.em().createQuery(all);
+
+		List<User> users = allQuery.getResultList();
+		users = users
+				.stream()
+				.map(User::sanitize)
+				.collect(Collectors.toList());
+		JsonNode jsonNodes = Json.toJson(users);
+
+		Logger.debug("got all users");
+		return ok(jsonNodes);
+	}
+
+	@Transactional
 	public static Result getProfile(long id) {
-		return ok("got profile with id " + id);
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> challengeRoot = cq.from(User.class);
+		cq.where(cb.equal(challengeRoot.get(User_.id), id));
+		List<User> results = JPA.em().createQuery(cq).getResultList();
+
+		if (results == null || results.size() == 0) {
+			Logger.debug("user with id=" + id + " not found");
+			return badRequest("user with id=" + id + " not found");
+		}
+		else {
+			Logger.debug("found user with id=" + id);
+			User user = results.get(0);
+			JsonNode json = Json.toJson(User.sanitize(user));
+
+			return ok(json);
+		}
 	}
 
 	@Transactional
@@ -38,10 +80,10 @@ public class UsersController extends Controller {
 				Logger.debug("registered user with netId" + netId + " and userId " + user.id);
 			}
 			session("userAuth", String.valueOf(user.id));
-			return ok(String.valueOf(user.id));
+			return ok(close.render("Success"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			return badRequest("unable to authenticate user with CAS");
+			return badRequest(close.render("Unable to authenticate user with CAS"));
 		}
 	}
 
@@ -58,11 +100,11 @@ public class UsersController extends Controller {
 			else {
 				session("userAuth", String.valueOf(user.id));
 				Logger.debug("logged in user with netId " + netId + " and userId " + user.id);
-				return ok(String.valueOf(user.id));
+				return ok(close.render("Success"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return badRequest("unable to authenticate user with CAS");
+			return badRequest(close.render("Unable to authenticate user with CAS"));
 		}
 	}
 
@@ -98,12 +140,33 @@ public class UsersController extends Controller {
 		List<AuthenticationMethod> results = JPA.em().createQuery(cq).getResultList();
 
 		if (results == null || results.size() == 0) {
-			Logger.debug("not found");
+			Logger.debug("user with authKey=" + authKey + " not found");
 			return null;
 		}
 		else {
-			Logger.debug("found " + results.get(0).id);
+			Logger.debug("found user with id=" + results.get(0).id);
 			return results.get(0).user;
+		}
+	}
+
+	@Transactional
+	public static Result deleteUser(Long id) {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> challengeRoot = cq.from(User.class);
+		cq.where(cb.equal(challengeRoot.get(User_.id), id));
+		List<User> results = JPA.em().createQuery(cq).getResultList();
+
+		if (results == null || results.size() == 0) {
+			Logger.debug("user with id=" + id + " not found");
+			return badRequest("user with id=" + id + " not found");
+		}
+		else {
+			User user = results.get(0);
+			JPA.em().remove(user);
+
+			Logger.debug("deleted user with id=" + id);
+			return ok("deleted user with id=" + id);
 		}
 	}
 }

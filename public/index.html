@@ -1,119 +1,90 @@
 <!DOCTYPE html>
-<html ng-app="ACM">
+<html lang="en">
 <head>
-	
-	<link href="css/main.css" rel="stylesheet">
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="icon"  type="image/png" href="img/favicon.ico">
-	<meta name="google" content="notranslate">
-	<meta http-equiv="Content-Language" content="en">
-
-	<script src="js/vendor/angular.min.js"></script>
-	<script src="js/vendor/jquery1.8.3.min.js"></script>
-	<script src="js/jquery.slidingGallery-1.2.js"></script>
-    <script>
-        $(function() {
-            //randomize sponsor logos
-            var elems = $('div.gallery > *').detach().get().map(function(elem) {
-                return {elem:elem, rank:Math.random()};
-            }).sort(function(a, b) {
-                return a.rank - b.rank;
-            }).map(function(obj) {
-                return obj.elem;
-            });
-            $(elems).appendTo('div.gallery').first().find('img').addClass('start');
-
-			var zoomFunc = function(dimension) {
-                return dimension * 1.5;
-            }
-            var shrinkFunc = function(dimension) {
-                return dimension * 0.5;
-            }
-            $('div.gallery img').slidingGallery({
-				container: $('div.gallery'),
-				'Lzoom':zoomFunc,
-				'Pzoom':zoomFunc,
-				'Lshrink':shrinkFunc,
-				'Pshrink':shrinkFunc,
-				'Pheight':150,
-				'Pwidth':200,
-				'Lheight':150,
-				'Lwidth':200,
-			});
-        });
-    </script>
-	<script> 
-		//$.noConflict(); // Deactivate $ for jQuery, use for Angular
-		var MEMBERS;
-		jQuery(function() {
-			jQuery(window).resize(function(){
-				if(jQuery(window).height() > jQuery('html').height())
-					jQuery('html').height(jQuery(window).height());
-			});
-		});
-
-	</script> 
-	<script src="js/ACM.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	
-	<title>BYU ACM - {{pageName}}</title>
+  <title>BYU ACM</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular-cookies.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+  <script src="/js/acm-new.js"></script>
+  <style>
+  	.block {
+  		background-color: grey;
+  		padding: 5px 0;
+  		margin: 5px 0;
+  	}
+  	.center-text {
+  		text-align: center;
+  	}
+  	.block h3 {
+  		margin: 0;
+  	}
+  	.white {
+  		color: white;
+  	}
+  	.no-border {
+		border: 0;
+  	}
+  	.banner {
+      background-color: LightGray;
+      margin: 0 -15px;
+	  /*max-height: 200px;
+	  overflow: hidden;*/
+    }
+    .banner-text {
+  		padding: 5px;
+  	}
+  	.navbar {
+  		margin: 0;
+		border-radius: 0;
+  	}
+    img {
+        width: 100%;
+        height: auto;
+    }
+	a {
+		cursor: pointer;
+	}
+  </style>
 </head>
-<body>
-	<!--[if gte IE 9]>
-		<style type="text/css">
-			.gradient {
-				filter: none;
-			}
-		</style>
-	<![endif]-->
-	<div class="main-content">
-		<header>
-			<img id="acm-diamond-logo" src="img/acm_logo.png">
-			<a id="acm-logo" href="#home">
-				<h1><b>BYU</b>ACM</h1>
-				<p>Association for Computing Machinery</p>
-			</a>
-			<span>
-				<a href="/membership/enrollment/">
-					<h3>Member Login</h3>
-				</a>
-				&nbsp;|&nbsp;
-				<a href="/membership/new_user/">
-					<h3>Sign Up</h3>
-				</a>
-			</span>
-		</header>
-		<nav>
-			<a href="#/home" ng-class="{selected: pageName == 'Home'}">Home</a>
-			<a href="#/about" ng-class="{selected: pageName == 'About'}">About</a>
-			<a href="#/contributors" ng-class="{selected: pageName == 'Contributors'}">Contributors</a>
-			<a href="#/members" ng-class="{selected: pageName == 'Membership'}">Membership</a>
-			<a href="#/events" ng-class="{selected: pageName == 'Events'}">Events</a>
-		</nav>
-		<div id="page-content" ng-view>
-		</div>
-		<footer>
-			<h3>Thanks to those who have contributed:</h3>
-			<div class="gallery" style="width:900px; height:170px;">
-			<!--	<a href="http://www.ooyala.com/" target="_blank"><img src="img/sponsor-logos/ooyala.gif"></a> -->
-			<!--	<a href="http://www.exxonmobil.com" target="_blank"><img src="img/sponsor-logos/exxon.gif"></a> -->
-			<!--	<a href="http://www.domo.com" target="_blank"><img src="img/sponsor-logos/domo.gif"></a> -->
-				<a href="http://www.adobe.com"><img src="img/sponsor-logos/adobe.png"></a>
-				<a href="http://www.epic.com" target="_blank"><img src="img/sponsor-logos/epic.jpg"></a>
-				<a href="http://www.fastenterprises.com" target="_blank"><img src="img/sponsor-logos/fastEnterprises.jpg"></a>
-			<!--	<a href="http://www.google.com" target="_blank"><img src="img/sponsor-logos/google.jpg"></a> -->
-				<a href="http://www.lucidchart.com" target="_blank"><img src="img/sponsor-logos/Lucidchart.png"></a>
-			<!--	<a href="http://www.microsoft.com" target="_blank"><img src="img/sponsor-logos/microsoft.jpg"></a> -->
-				<a href="http://www.parivedasolutions.com" target="_blank"><img src="img/sponsor-logos/pariveda-solutions.jpg"></a>
-				<a href="http://wwww.walmart.com" target="_blank"><img src="img/sponsor-logos/walmart.png"></a>
-				<a href="http://www.qualtrics.com" target="_blank"><img src="img/sponsor-logos/qualtrics.png"></a>
-			<!--	<a href="http://www.soteradefense.com" target="_blank"><img src="img/sponsor-logos/sotera.png"></a> -->
-			</div>
-			<div class="copyright">
-				&copy; 2014 BYU Association for Computing Machinery
-			</div>
-		</footer>
-	</div>
-	<img src="https://commerce.cashnet.com/webagency" style="display:none;">
+<body ng-app="acm" ng-controller="MainCtrl">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle no-border" data-toggle="collapse" data-target="#pages">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <button type="button" class="navbar-toggle no-border" data-toggle="collapse" data-target="#profile">
+        <span class="glyphicon glyphicon-user white"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">BYU ACM</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav navbar-collapse collapse" id="pages">
+        <li ng-class="{ active : isActive('home')}"><a href="#/">Home</a></li>
+        <li ng-class="{ active : isActive('challenges')}"><a href="#/challenges">Challenges</a></li>
+        <li ng-class="{ active : isActive('partner')}"><a href="#/partner">Partner with Us</a></li>
+        <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
+        <li ng-if="!isLoggedIn()"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li ng-if="!isLoggedIn()"><a ng-click="logIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		<li ng-if="isLoggedIn()"><a ng-click="checkIn()"><span class="glyphicon glyphicon-map-marker"></span> Meeting Check-In</a></li>
+		<li ng-if="isLoggedIn()"><a ng-click="logOut()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+	<ui-view></ui-view>
+</div>
 </body>
 </html>

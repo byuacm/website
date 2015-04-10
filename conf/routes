@@ -3,19 +3,23 @@
 # ~~~~
 
 # Home page
-GET			/					controllers.Assets.at(path="/public", file="test.html")
+GET			/						controllers.Assets.at(path="/public", file="index.html")
 
 # Events
-GET			/events				controllers.EventsController.getEvents()
+GET			/events					controllers.EventsController.getEvents()
 
 # Challenges
-GET			/challenges			controllers.ChallengesController.getChallenges()
-GET			/challenges/:id		controllers.ChallengesController.getChallenge(id: Long)
+GET			/challenges				controllers.ChallengesController.getChallenges()
+GET			/challenges/open		controllers.ChallengesController.getOpenChallenges()
+POST		/challenges/create		controllers.ChallengesController.createChallenge()
+GET			/challenges/delete/:id	controllers.ChallengesController.deleteChallenge(id: Long)
+GET			/challenges/:id			controllers.ChallengesController.getChallenge(id: Long)
 
 # User pages
-GET			/profile/:id		controllers.UsersController.getProfile(id: Long)
-GET			/register/cas		controllers.UsersController.registerCas()
-GET			/login/cas			controllers.UsersController.loginCas()
+GET			/profiles				controllers.UsersController.getProfiles()
+GET			/profiles/:id			controllers.UsersController.getProfile(id: Long)
+GET			/register/cas			controllers.UsersController.registerCas()
+GET			/login/cas				controllers.UsersController.loginCas()
 
 # As a last resort, try to find a static file that matches the request.
-GET			/*file				controllers.Assets.at(path="/public", file)
+GET			/*file					controllers.Assets.at(path="/public", file)
