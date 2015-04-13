@@ -2,7 +2,6 @@ package controllers;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,6 +12,7 @@ import javax.persistence.criteria.Root;
 
 import models.Challenge;
 import models.Challenge_;
+import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
@@ -23,6 +23,27 @@ import play.mvc.Result;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class ChallengesController extends Controller {
+
+	@Transactional
+	public static Result createChallenge() {
+		try {
+			JsonNode json = request().body().asJson();
+			String name = json.findPath("name").textValue();
+			Timestamp startTime = Timestamp.valueOf(json.findPath("startTime").textValue());
+			Timestamp endTime = Timestamp.valueOf(json.findPath("endTime").textValue());
+			String question = json.findPath("question").textValue();
+			String solution = json.findPath("solution").textValue();
+
+			Challenge newChallenge = new Challenge(name, startTime, endTime, question, solution);
+			JPA.em().persist(newChallenge);
+
+			Logger.debug("created challenge with name=" + name);
+			return ok("created challenge");
+		} catch (NullPointerException e) {
+			Logger.debug("failed to create challenge - invalid format");
+			return badRequest("failed to create challenge - invalid format");
+		}
+	}
 
 	@Transactional
 	public static Result getChallenges() {
@@ -39,19 +60,15 @@ public class ChallengesController extends Controller {
 
 	@Transactional
 	public static Result getChallenge(Long id) {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<Challenge> cq = cb.createQuery(Challenge.class);
-		Root<Challenge> challengeRoot = cq.from(Challenge.class);
-		cq.where(cb.equal(challengeRoot.get(Challenge_.id), id));
-		List<Challenge> results = JPA.em().createQuery(cq).getResultList();
+		Challenge challenge = Challenge.getChallenge(id);
 
-		if (results == null || results.size() == 0) {
+		if (challenge == null) {
 			Logger.debug("challenge with id=" + id + " not found");
 			return badRequest("challenge with id=" + id + " not found");
 		}
 		else {
 			Logger.debug("found challenge with id=" + id);
-			JsonNode json = Json.toJson(results.get(0));
+			JsonNode json = Json.toJson(challenge);
 			return ok(json);
 		}
 	}
@@ -85,24 +102,36 @@ public class ChallengesController extends Controller {
 	}
 
 	@Transactional
-	public static Result createChallenge() {
-		try {
-			JsonNode json = request().body().asJson();
-			String name = json.findPath("name").textValue();
-			Timestamp startTime = Timestamp.valueOf(json.findPath("startTime").textValue());
-			Timestamp endTime = Timestamp.valueOf(json.findPath("endTime").textValue());
-			String question = json.findPath("question").textValue();
-			String solution = json.findPath("solution").textValue();
+	public static Result completeChallenge(Long challengeId) {
+		String userAuth = session("userAuth");
 
-			Challenge newChallenge = new Challenge(name, startTime, endTime, question, solution);
-			JPA.em().persist(newChallenge);
-
-			Logger.debug("created challenge with name=" + name);
-			return ok("created challenge");
-		} catch (NullPointerException e) {
-			Logger.debug("failed to create challenge - invalid format");
-			return badRequest("failed to create challenge - invalid format");
+		if (userAuth == null) {
+			Logger.debug("cannot complete challenge - not authenticated");
+			return unauthorized("cannot complete challenge - not authenticated");
 		}
+
+		Long userId = Long.parseLong(userAuth);
+		User user = User.getUser(userId);
+
+		if (user == null) {
+			Logger.debug("cannot complete challenge - no matching user id");
+			return unauthorized("cannot complete challenge - no matching user id");
+		}
+
+		Challenge challenge = Challenge.getChallenge(challengeId);
+
+		if (challenge == null) {
+			Logger.debug("cannot complete challenge - no matching challenge id");
+			return badRequest("cannot complete challenge - no matching challenge id");
+		}
+
+		user.completeChallenge(challenge);
+		JPA.em().merge(user);
+		challenge.addSuccessfulUser(user);
+		JPA.em().merge(challenge);
+
+		Logger.debug("user with id=" + userId + " completed challenge with id=" + challengeId);
+		return ok("user with id=" + userId + " completed challenge with id=" + challengeId);
 	}
 
 	@Transactional
