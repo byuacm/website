@@ -34,8 +34,8 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 	function checkCookie() {
 		return false;
 	}
-	  
-	var loggedIn = checkCookie(); 
+
+	var loggedIn = checkCookie();
 	$scope.isActive = function(state) {
 		return state === $state.current.name;
 	};
@@ -55,9 +55,9 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			'resizeable=yes,' +
 			'width=600,' +
 			'height=650');
-			
+
 		window.onbeforeunload = function(event) {
-			
+
 		};
 		loggedIn = true;
 	};
@@ -74,9 +74,9 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			'resizeable=yes,' +
 			'width=600,' +
 			'height=650');
-			
+
 		window.onbeforeunload = function(event) {
-			
+
 		};
 		loggedIn = true;
 	};
@@ -86,9 +86,9 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 	$scope.logOut = function() {
 		// check for NO cookie
 		var window = $window.open('https://cas.byu.edu/cas/logout');
-		
+
 		window.onbeforeunload = function(event) {
-			
+
 		};
 		loggedIn = false;
 	};
@@ -118,10 +118,10 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 	function($scope, challengeFactory) {
 		challengeFactory.getAll();
 		$scope.challenges = challengeFactory.challenges;
-		
+
 		challengeFactory.getOpen();
 		var open = challengeFactory.openChallenges;
-		
+
 		$scope.isChallengeDisabled = function(id) {
 			for (var i = 0; i < open.length; i++) {
 				if (open[i].id == id) {
