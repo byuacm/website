@@ -8,6 +8,7 @@ scalaVersion := "2.11.1"
 
 libraryDependencies ++= Seq(
   javaJdbc,
+  "mysql" % "mysql-connector-java" % "5.1.27",
   javaJpa,
   "org.hibernate" % "hibernate-entitymanager" % "4.3.8.Final",
   "org.hibernate" % "hibernate-jpamodelgen" % "4.3.8.Final",
