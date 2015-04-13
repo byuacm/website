@@ -1,6 +1,6 @@
 all: init
 
-init: scp init.sql
+init: scp init.sql metamodel
 
 .PHONY: scp
 scp:
@@ -11,3 +11,6 @@ scp:
 init.sql:
 	mysql -u root --verbose < init.sql
 
+.PHONY: metamodel
+metamodel:
+	mkdir metamodel
