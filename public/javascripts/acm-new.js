@@ -21,7 +21,7 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		.state('roster', {
 			url: '/roster',
 			templateUrl: '/html/roster.html',
-			//controller: 'RosterCtrl'
+			// controller: 'RosterCtrl'
 		});
 		$urlRouterProvider.otherwise('/');
 	}
@@ -108,6 +108,17 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 	o.getOpen = function() {
 		return $http.get('/challenges/open').success(function(data) {
 			angular.copy(data, o.openChallenges);
+		});
+	};
+	return o;
+}])
+.factory('rosterFactory', ['$http', function($http) {
+	var o = {
+		roster: []
+	};
+	o.getAll = function() {
+		return $http.get('/profiles').success(function(data) {
+			angular.copy(data, o.roster);
 		});
 	};
 	return o;
