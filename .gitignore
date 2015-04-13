@@ -18,3 +18,4 @@ conf/production.conf
 /.apt_generated/
 /metamodel/
 project/
+init.sql
