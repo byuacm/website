@@ -58,12 +58,6 @@ public class User {
 		this.completedChallenges = new HashSet<Challenge>();
 	}
 
-	public static User sanitize(User user) {
-		User newUser = new User();
-		newUser.id = user.id;
-		newUser.username = user.username;
-		newUser.email = user.email;
-		return newUser;
 	@Transactional
 	public static User getUser(Long userId) {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
