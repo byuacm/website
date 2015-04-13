@@ -1,4 +1,6 @@
-all: scp init.sql
+all: init
+
+init: scp init.sql
 
 .PHONY: scp
 scp:
