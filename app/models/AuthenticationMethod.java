@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -12,7 +11,7 @@ public class AuthenticationMethod {
 	@Id
 	@GeneratedValue
 	public Long id;
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST })
+	@ManyToOne(cascade = { CascadeType.PERSIST })
 	public User user;
 	public String authKey;
 

@@ -43,11 +43,23 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static Result getProfile(long id) {
+	public static Result getProfile(Long id) {
+		if (id == -1) {
+			String userAuth = session("userAuth");
+
+			if (userAuth == null) {
+				Logger.debug("cannot get profile - not authenticated");
+				return unauthorized("cannot get profile - not authenticated");
+			}
+			else {
+				id = Long.parseLong(userAuth);
+			}
+		}
+
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> challengeRoot = cq.from(User.class);
-		cq.where(cb.equal(challengeRoot.get(User_.id), id));
+		Root<User> userRoot = cq.from(User.class);
+		cq.where(cb.equal(userRoot.get(User_.id), id));
 		List<User> results = JPA.em().createQuery(cq).getResultList();
 
 		if (results == null || results.size() == 0) {
