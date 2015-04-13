@@ -21,7 +21,7 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		.state('roster', {
 			url: '/roster',
 			templateUrl: '/html/roster.html',
-			// controller: 'RosterCtrl'
+			controller: 'RosterCtrl'
 		});
 		$urlRouterProvider.otherwise('/');
 	}
@@ -141,5 +141,13 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			}
 			return true;
 		}
+	}
+])
+.controller('RosterCtrl', [
+	'$scope',
+	'rosterFactory',
+	function($scope, rosterFactory) {
+		rosterFactory.getAll();
+		$scope.roster = rosterFactory.roster;
 	}
 ]);
