@@ -1,0 +1,42 @@
+.block {
+	background-color: grey;
+	padding: 5px 0;
+	margin: 5px 0;
+}
+.center-text {
+	text-align: center;
+}
+.block h3 {
+	margin: 0;
+}
+.white {
+	color: white;
+}
+.no-border {
+border: 0;
+}
+.banner {
+  background-color: LightGray;
+  margin: 0 -15px;
+/*max-height: 200px;
+overflow: hidden;*/
+}
+.banner-text {
+	padding: 5px;
+}
+.navbar {
+	margin: 0;
+border-radius: 0;
+}
+img {
+    width: 100%;
+    height: auto;
+}
+a {
+  cursor: pointer;
+  color: white;
+}
+.navbar {
+  background-color: #373534;
+  color: white;
+}
