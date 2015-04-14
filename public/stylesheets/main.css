@@ -3,6 +3,8 @@
   color: #373534;
 	padding: 10px;
 	margin: 10px;
+  width: 375px;
+  height: 400px;
 }
 @media screen and (max-width: 768px) {
     .block {
