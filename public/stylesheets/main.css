@@ -125,6 +125,18 @@ overflow: hidden;*/
 /* --------- MEDIA QUERIES --------- */
 @media screen and (max-width: 768px) {
     .block {
-        margin: 5px;
+        margin: 10px 0px;
+        height: auto;
+        width: 100%;
+        padding: 5px 20px 10px 20px;
+    }
+
+    .nav-logo img {
+      height: 60px;
+      margin-top: -18px;
+    }
+
+    h1.center-text {
+      margin-top: 2px;
     }
 }
