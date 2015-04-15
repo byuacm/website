@@ -75,7 +75,6 @@ public class UsersController extends Controller {
 
 		User user = getUser(id);
 
-		Logger.debug(request().body().toString());
 		JsonNode json = request().body().asJson();
 
 		String username = json.findPath("username").textValue();
@@ -90,6 +89,7 @@ public class UsersController extends Controller {
 
 		JPA.em().merge(user);
 
+		Logger.debug("updated profile for user with id=" + id);
 		return ok("updated profile for user with id=" + id);
 	}
 
