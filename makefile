@@ -14,3 +14,7 @@ init.sql:
 .PHONY: metamodel
 metamodel:
 	mkdir metamodel
+
+.PHONY: run
+run:
+	./activator -Dconfig.file=conf/production.conf ~run
