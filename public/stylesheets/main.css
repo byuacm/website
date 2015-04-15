@@ -1,75 +1,142 @@
+/* ------------ GLOBAL ------------ */
+body {
+  background-color: grey;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+a {
+  cursor: pointer;
+  color: white;
+}
+
+a:hover {
+  color: #373534;
+}
+
+/* ------------ CLASS ------------ */
 .block {
 	background-color: white;
   color: #373534;
-	padding: 10px;
+	padding: 30px;
 	margin: 10px;
+  width: 375px;
+  height: 400px;
 }
-@media screen and (max-width: 768px) {
-    .block {
-        margin: 10px 0;
-    }
-}
+
 .center-text {
-	text-align: center;
+  text-align: center;
 }
+
 .block-div {
   padding: 0;
 }
+
 .white {
-	color: white;
+  color: white;
 }
+
 .no-border {
-border: 0;
+  border: 0px;
 }
+
 .banner {
   background-color: LightGray;
   margin: 0 -15px;
 /*max-height: 200px;
 overflow: hidden;*/
 }
+
 .banner-text {
-	padding: 5px;
+  padding: 5px;
 }
+
 .navbar {
-	margin: 0;
-border-radius: 0;
+  margin: 0;
+  border-radius: 0;
 }
-img {
-    width: 100%;
-    height: auto;
+
+.center-text {
+  text-align: center;
 }
-a {
-  cursor: pointer;
+
+.block-div {
+  padding: 0;
+}
+
+.white {
   color: white;
 }
-a:hover {
-  color: #373534;
+
+.no-border {
+  border: 0;
 }
+
+.banner {
+  background-color: LightGray;
+  margin: 0 -15px;
+/*max-height: 200px;
+overflow: hidden;*/
+}
+
+.banner-text {
+  padding: 5px;
+}
+
+.navbar {
+  margin: 0;
+  border-radius: 0;
+}
+
 .navbar {
   background-color: #373534;
   color: white;
 }
+
 .banner-image {
   width: 100%;
   overflow: hidden;
 }
+
 .banner-image img {
   width: 100%;
   vertical-align: middle;
   display: inline-block;
   float: none;
 }
+
 .nav-logo {
   padding-top: 0px;
 }
+
 .nav-logo img {
   height: 100px;
   width: auto;
   margin-bottom: -50px;
 }
-body {
-  background-color: grey;
-}
+
 .text {
   font-size: 125%;
+}
+
+/* --------- MEDIA QUERIES --------- */
+@media screen and (max-width: 768px) {
+    .block {
+        margin: 10px 0px;
+        height: auto;
+        width: 100%;
+        padding: 5px 20px 10px 20px;
+    }
+
+    .nav-logo img {
+      height: 60px;
+      margin-top: -18px;
+    }
+
+    h1.center-text {
+      margin-top: 2px;
+    }
 }
