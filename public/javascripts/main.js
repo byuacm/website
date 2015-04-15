@@ -22,6 +22,11 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			url: '/roster',
 			templateUrl: '/html/roster.html',
 			controller: 'RosterCtrl'
+		})
+		.state('profile', {
+			url: '/profile',
+			templateUrl: '/html/profile.html',
+			controller: 'ProfileCtrl'
 		});
 		$urlRouterProvider.otherwise('/');
 	}

@@ -15,6 +15,7 @@
   <script src="/javascripts/main.js"></script>
   <script src="/javascripts/challenges.js"></script>
   <script src="/javascripts/roster.js"></script>
+  <script src="/javascripts/profile.js"></script>
   <link rel="stylesheet" href="stylesheets/main.css">
 </head>
 <body ng-app="acm" ng-controller="MainCtrl">
@@ -41,6 +42,7 @@
         <li ng-class="{ active : isActive('challenges')}"><a href="#/challenges">Challenges</a></li>
         <li ng-class="{ active : isActive('partner')}"><a href="#/partner">Partner with Us</a></li>
         <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
+        <li ng-class="{ active : isActive('profile')}"><a href="#/profile">Profile</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
         <li ng-if="!isLoggedIn()"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
