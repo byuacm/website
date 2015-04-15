@@ -18,3 +18,7 @@ metamodel:
 .PHONY: run
 run:
 	./activator -Dconfig.file=conf/production.conf ~run
+
+.PHONY: debug
+debug:
+	./activator -Dconfig.file=conf/production.conf -jvm-debug 9999 ~run
