@@ -122,6 +122,14 @@ overflow: hidden;*/
   font-size: 125%;
 }
 
+.navbar .icon-bar {
+  background-color: white;
+}
+
+[data-target="#pages"] {
+  margin-top: 10px;
+}
+
 /* --------- MEDIA QUERIES --------- */
 @media screen and (max-width: 768px) {
     .block {
