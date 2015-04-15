@@ -44,35 +44,53 @@ public class UsersController extends Controller {
 
 	@Transactional
 	public static Result getProfile(Long id) {
-		if (id == -1) {
-			String userAuth = session("userAuth");
-
-			if (userAuth == null) {
-				Logger.debug("cannot get profile - not authenticated");
-				return unauthorized("cannot get profile - not authenticated");
-			}
-			else {
-				id = Long.parseLong(userAuth);
+		if (id == -1L) {
+			id = getSessionUserId();
+			if (id == -1L) {
+				Logger.debug("cannot get user - not authenticated");
+				return unauthorized("cannot get user - not authenticated");
 			}
 		}
 
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> userRoot = cq.from(User.class);
-		cq.where(cb.equal(userRoot.get(User_.id), id));
-		List<User> results = JPA.em().createQuery(cq).getResultList();
-
-		if (results == null || results.size() == 0) {
+		User user = getUser(id);
+		if (user == null) {
 			Logger.debug("user with id=" + id + " not found");
 			return badRequest("user with id=" + id + " not found");
 		}
 		else {
 			Logger.debug("found user with id=" + id);
-			User user = results.get(0);
 			JsonNode json = Json.toJson(user);
-
 			return ok(json);
 		}
+	}
+
+	@Transactional
+	public static Result updateProfile() {
+		Long id = getSessionUserId();
+
+		if (id == -1L) {
+			Logger.debug("cannot update profile - not authenticated");
+			return unauthorized("cannot update profile - not authenticated");
+		}
+
+		User user = getUser(id);
+
+		Logger.debug(request().body().toString());
+		JsonNode json = request().body().asJson();
+
+		String username = json.findPath("username").textValue();
+		String firstName = json.findPath("firstName").textValue();
+		String lastName = json.findPath("lastName").textValue();
+		String email = json.findPath("email").textValue();
+
+		user.username = username;
+		user.firstName = firstName;
+		user.lastName = lastName;
+		user.email = email;
+
+		JPA.em().merge(user);
+
+		return ok("updated profile for user with id=" + id);
 	}
 
 	@Transactional
@@ -153,6 +171,35 @@ public class UsersController extends Controller {
 		else {
 			Logger.debug("found user with id=" + results.get(0).id);
 			return results.get(0).user;
+		}
+	}
+
+	@Transactional
+	public static Long getSessionUserId() {
+		Long id = -1L;
+		String userAuth = session("userAuth");
+
+		if (userAuth != null) {
+			id = Long.parseLong(userAuth);
+		}
+
+		return id;
+	}
+
+	@Transactional
+	public static User getUser(Long id) {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> userRoot = cq.from(User.class);
+		cq.where(cb.equal(userRoot.get(User_.id), id));
+		List<User> results = JPA.em().createQuery(cq).getResultList();
+
+		if (results == null || results.size() == 0) {
+			return null;
+		}
+		else {
+			User user = results.get(0);
+			return user;
 		}
 	}
 
