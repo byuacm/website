@@ -97,15 +97,24 @@ overflow: hidden;*/
 }
 
 .banner-image {
-  width: 100%;
   overflow: hidden;
+  position: relative;
+  width: 100%;
 }
 
 .banner-image img {
-  width: 100%;
-  vertical-align: middle;
   display: inline-block;
   float: none;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.banner-image .email-signup {
+  background-color: rgb(31,178,226);
+  color: white;
+  padding: 10px;
+  position: absolute;
+  right: 0px;
 }
 
 .nav-logo {
@@ -116,6 +125,8 @@ overflow: hidden;*/
   height: 100px;
   width: auto;
   margin-bottom: -50px;
+  position: relative;
+  z-index: 1;
 }
 
 .text {
