@@ -109,7 +109,7 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static Result updateProfile() {
+	public static Result editProfile() {
 		Long userId = getSessionUserId();
 
 		if (userId == -1L) {

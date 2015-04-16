@@ -10,19 +10,21 @@ GET			/events						controllers.EventsController.getEvents()
 
 # Challenges
 POST		/challenges/create			controllers.ChallengesController.createChallenge()
-GET			/challenges					controllers.ChallengesController.getChallenges()
-GET			/challenges/open			controllers.ChallengesController.getOpenChallenges()
+GET			/challenges/getall			controllers.ChallengesController.getChallenges()
+GET			/challenges/get/:id			controllers.ChallengesController.getChallengeById(id: Long)
+GET			/challenges/getopen			controllers.ChallengesController.getOpenChallenges()
+GET			/challenges/edit/:id		controllers.ChallengesController.editChallenge(id: Long)
 GET			/challenges/complete/:id	controllers.ChallengesController.completeChallenge(id: Long)
 GET			/challenges/delete/:id		controllers.ChallengesController.deleteChallenge(id: Long)
-GET			/challenges/:id				controllers.ChallengesController.getChallenge(id: Long)
 
 # User pages
-GET			/profiles					controllers.UsersController.getProfiles()
-GET			/profile					controllers.UsersController.getProfile(id: Long ?= -1)
-GET			/profile/:id				controllers.UsersController.getProfile(id: Long)
-POST		/profile/edit				controllers.UsersController.updateProfile()
 GET			/register/cas				controllers.UsersController.registerCas()
 GET			/login/cas					controllers.UsersController.loginCas()
+GET			/profiles/getall			controllers.UsersController.getProfiles()
+GET			/profiles/get/:id			controllers.UsersController.getProfile(id: Long)
+GET			/profiles/getcurrent		controllers.UsersController.getProfile(id: Long ?= -1)
+POST		/profiles/editcurrent		controllers.UsersController.editProfile()
+GET			/profiles/delete/:id		controllers.UsersController.deleteUser(id: Long)
 
 # As a last resort, try to find a static file that matches the request.
 GET			/*file						controllers.Assets.at(path="/public", file)

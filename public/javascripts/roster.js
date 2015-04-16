@@ -5,7 +5,7 @@ app.factory('rosterFactory', ['$http', function($http) {
 		roster: []
 	};
 	o.getAll = function() {
-		return $http.get('/profiles').success(function(data) {
+		return $http.get('/profiles/getall').success(function(data) {
 			angular.copy(data, o.roster);
 		});
 	};

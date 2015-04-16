@@ -7,12 +7,12 @@ app.factory('challengeFactory', ['$http', function($http) {
 		challenge: {}
 	};
 	o.getAll = function() {
-		return $http.get('/challenges').success(function(data) {
+		return $http.get('/challenges/getall').success(function(data) {
 			angular.copy(data, o.challenges);
 		});
 	};
 	o.getOpen = function() {
-		return $http.get('/challenges/open').success(function(data) {
+		return $http.get('/challenges/getopen').success(function(data) {
 			angular.copy(data, o.openChallenges);
 		});
 	};
