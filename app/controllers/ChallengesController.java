@@ -24,6 +24,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class ChallengesController extends Controller {
 
+	///////////////////////////////////////////////////////
+	// Routes
+	///////////////////////////////////////////////////////
+
 	@Transactional
 	public static Result createChallenge() {
 		try {
@@ -59,15 +63,15 @@ public class ChallengesController extends Controller {
 	}
 
 	@Transactional
-	public static Result getChallenge(Long id) {
-		Challenge challenge = Challenge.getChallenge(id);
+	public static Result getChallengeById(Long challengeId) {
+		Challenge challenge = getChallenge(challengeId);
 
 		if (challenge == null) {
-			Logger.debug("challenge with id=" + id + " not found");
-			return badRequest("challenge with id=" + id + " not found");
+			Logger.debug("challenge with id=" + challengeId + " not found");
+			return badRequest("challenge with id=" + challengeId + " not found");
 		}
 		else {
-			Logger.debug("found challenge with id=" + id);
+			Logger.debug("found challenge with id=" + challengeId);
 			JsonNode json = Json.toJson(challenge);
 			return ok(json);
 		}
@@ -96,9 +100,15 @@ public class ChallengesController extends Controller {
 			json = Json.newObject();
 		}
 		else {
+			Logger.debug("got open challenges");
 			json = Json.toJson(results);
 		}
 		return ok(json);
+	}
+
+	@Transactional
+	public static Result editChallenge(Long challengeId) {
+		return TODO;
 	}
 
 	@Transactional
@@ -111,14 +121,14 @@ public class ChallengesController extends Controller {
 		}
 
 		Long userId = Long.parseLong(userAuth);
-		User user = User.getUser(userId);
+		User user = UsersController.getUser(userId);
 
 		if (user == null) {
 			Logger.debug("cannot complete challenge - no matching user id");
 			return unauthorized("cannot complete challenge - no matching user id");
 		}
 
-		Challenge challenge = Challenge.getChallenge(challengeId);
+		Challenge challenge = getChallenge(challengeId);
 
 		if (challenge == null) {
 			Logger.debug("cannot complete challenge - no matching challenge id");
@@ -135,23 +145,46 @@ public class ChallengesController extends Controller {
 	}
 
 	@Transactional
-	public static Result deleteChallenge(Long id) {
+	public static Result deleteChallenge(Long challengeId) {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<Challenge> cq = cb.createQuery(Challenge.class);
 		Root<Challenge> challengeRoot = cq.from(Challenge.class);
-		cq.where(cb.equal(challengeRoot.get(Challenge_.id), id));
+		cq.where(cb.equal(challengeRoot.get(Challenge_.id), challengeId));
 		List<Challenge> results = JPA.em().createQuery(cq).getResultList();
 
 		if (results == null || results.size() == 0) {
-			Logger.debug("challenge with id=" + id + " not found");
-			return badRequest("challenge with id=" + id + " not found");
+			Logger.debug("challenge with id=" + challengeId + " not found");
+			return badRequest("challenge with id=" + challengeId + " not found");
 		}
 		else {
 			Challenge challenge = results.get(0);
 			JPA.em().remove(challenge);
 
-			Logger.debug("deleted challenge with id=" + id);
-			return ok("deleted challenge with id=" + id);
+			Logger.debug("deleted challenge with id=" + challengeId);
+			return ok("deleted challenge with id=" + challengeId);
 		}
 	}
+
+	///////////////////////////////////////////////////////
+	// Helper Functions
+	///////////////////////////////////////////////////////
+
+	@Transactional
+	public static Challenge getChallenge(Long challengeId) {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<Challenge> cq = cb.createQuery(Challenge.class);
+		Root<Challenge> challengeRoot = cq.from(Challenge.class);
+		cq.where(cb.equal(challengeRoot.get(Challenge_.id), challengeId));
+		List<Challenge> results = JPA.em().createQuery(cq).getResultList();
+
+		if (results == null || results.size() == 0) {
+			Logger.debug("challenge with id=" + challengeId + " not found");
+			return null;
+		}
+		else {
+			Logger.debug("found challenge with id=" + challengeId);
+			return results.get(0);
+		}
+	}
+
 }

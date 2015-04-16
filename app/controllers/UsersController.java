@@ -27,71 +27,9 @@ public class UsersController extends Controller {
 
 	private static final long TIMEOUT_LENGTH = 5000L;
 
-	@Transactional
-	public static Result getProfiles() {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> root = cq.from(User.class);
-		CriteriaQuery<User> all = cq.select(root);
-		TypedQuery<User> allQuery = JPA.em().createQuery(all);
-
-		List<User> users = allQuery.getResultList();
-		JsonNode jsonNodes = Json.toJson(users);
-
-		Logger.debug("got all users");
-		return ok(jsonNodes);
-	}
-
-	@Transactional
-	public static Result getProfile(Long id) {
-		if (id == -1L) {
-			id = getSessionUserId();
-			if (id == -1L) {
-				Logger.debug("cannot get user - not authenticated");
-				return unauthorized("cannot get user - not authenticated");
-			}
-		}
-
-		User user = getUser(id);
-		if (user == null) {
-			Logger.debug("user with id=" + id + " not found");
-			return badRequest("user with id=" + id + " not found");
-		}
-		else {
-			Logger.debug("found user with id=" + id);
-			JsonNode json = Json.toJson(user);
-			return ok(json);
-		}
-	}
-
-	@Transactional
-	public static Result updateProfile() {
-		Long id = getSessionUserId();
-
-		if (id == -1L) {
-			Logger.debug("cannot update profile - not authenticated");
-			return unauthorized("cannot update profile - not authenticated");
-		}
-
-		User user = getUser(id);
-
-		JsonNode json = request().body().asJson();
-
-		String username = json.findPath("username").textValue();
-		String firstName = json.findPath("firstName").textValue();
-		String lastName = json.findPath("lastName").textValue();
-		String email = json.findPath("email").textValue();
-
-		user.username = username;
-		user.firstName = firstName;
-		user.lastName = lastName;
-		user.email = email;
-
-		JPA.em().merge(user);
-
-		Logger.debug("updated profile for user with id=" + id);
-		return ok("updated profile for user with id=" + id);
-	}
+	///////////////////////////////////////////////////////
+	// Routes
+	///////////////////////////////////////////////////////
 
 	@Transactional
 	public static Result registerCas() {
@@ -104,7 +42,7 @@ public class UsersController extends Controller {
 				JPA.em().persist(user);
 				Logger.debug("registered user with netId" + netId + " and userId " + user.id);
 			}
-			session("userAuth", String.valueOf(user.id));
+			setSessionUserId(user.id);
 			return ok(close.render("Success"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,7 +61,7 @@ public class UsersController extends Controller {
 				return badRequest("user does not exist");
 			}
 			else {
-				session("userAuth", String.valueOf(user.id));
+				setSessionUserId(user.id);
 				Logger.debug("logged in user with netId " + netId + " and userId " + user.id);
 				return ok(close.render("Success"));
 			}
@@ -133,7 +71,98 @@ public class UsersController extends Controller {
 		}
 	}
 
-	public static Promise<String> authenticateCas() throws Exception {
+	@Transactional
+	public static Result getProfiles() {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		CriteriaQuery<User> all = cq.select(root);
+		TypedQuery<User> allQuery = JPA.em().createQuery(all);
+
+		List<User> users = allQuery.getResultList();
+		JsonNode jsonNodes = Json.toJson(users);
+
+		Logger.debug("got all users");
+		return ok(jsonNodes);
+	}
+
+	@Transactional
+	public static Result getProfile(Long userId) {
+		if (userId == -1L) {
+			userId = getSessionUserId();
+			if (userId == -1L) {
+				Logger.debug("cannot get user - not authenticated");
+				return unauthorized("cannot get user - not authenticated");
+			}
+		}
+
+		User user = getUser(userId);
+		if (user == null) {
+			Logger.debug("user with id=" + userId + " not found");
+			return badRequest("user with id=" + userId + " not found");
+		}
+		else {
+			Logger.debug("found user with id=" + userId);
+			JsonNode json = Json.toJson(user);
+			return ok(json);
+		}
+	}
+
+	@Transactional
+	public static Result updateProfile() {
+		Long userId = getSessionUserId();
+
+		if (userId == -1L) {
+			Logger.debug("cannot update profile - not authenticated");
+			return unauthorized("cannot update profile - not authenticated");
+		}
+
+		User user = getUser(userId);
+
+		JsonNode json = request().body().asJson();
+
+		String username = json.findPath("username").textValue();
+		String firstName = json.findPath("firstName").textValue();
+		String lastName = json.findPath("lastName").textValue();
+		String email = json.findPath("email").textValue();
+
+		user.username = username;
+		user.firstName = firstName;
+		user.lastName = lastName;
+		user.email = email;
+
+		JPA.em().merge(user);
+
+		Logger.debug("updated profile for user with id=" + userId);
+		return ok("updated profile for user with id=" + userId);
+	}
+
+	@Transactional
+	public static Result deleteUser(Long userId) {
+		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
+		CriteriaQuery<User> cq = cb.createQuery(User.class);
+		Root<User> challengeRoot = cq.from(User.class);
+		cq.where(cb.equal(challengeRoot.get(User_.id), userId));
+		List<User> results = JPA.em().createQuery(cq).getResultList();
+
+		if (results == null || results.size() == 0) {
+			Logger.debug("user with id=" + userId + " not found");
+			return badRequest("user with id=" + userId + " not found");
+		}
+		else {
+			User user = results.get(0);
+			JPA.em().remove(user);
+
+			Logger.debug("deleted user with id=" + userId);
+			return ok("deleted user with id=" + userId);
+		}
+	}
+
+	///////////////////////////////////////////////////////
+	// Helper Functions
+	///////////////////////////////////////////////////////
+
+	private static Promise<String> authenticateCas() throws Exception {
 		String[] tickets = request().queryString().get("ticket");
 		if (tickets == null) {
 			throw new Exception("CAS ticket required");
@@ -157,7 +186,7 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static User getUser(String authKey) {
+	private static User getUser(String authKey) {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<AuthenticationMethod> cq = cb.createQuery(AuthenticationMethod.class);
 		Root<AuthenticationMethod> authenticationMethod = cq.from(AuthenticationMethod.class);
@@ -175,23 +204,11 @@ public class UsersController extends Controller {
 	}
 
 	@Transactional
-	public static Long getSessionUserId() {
-		Long id = -1L;
-		String userAuth = session("userAuth");
-
-		if (userAuth != null) {
-			id = Long.parseLong(userAuth);
-		}
-
-		return id;
-	}
-
-	@Transactional
-	public static User getUser(Long id) {
+	public static User getUser(Long userId) {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
 		CriteriaQuery<User> cq = cb.createQuery(User.class);
 		Root<User> userRoot = cq.from(User.class);
-		cq.where(cb.equal(userRoot.get(User_.id), id));
+		cq.where(cb.equal(userRoot.get(User_.id), userId));
 		List<User> results = JPA.em().createQuery(cq).getResultList();
 
 		if (results == null || results.size() == 0) {
@@ -203,24 +220,18 @@ public class UsersController extends Controller {
 		}
 	}
 
-	@Transactional
-	public static Result deleteUser(Long id) {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> challengeRoot = cq.from(User.class);
-		cq.where(cb.equal(challengeRoot.get(User_.id), id));
-		List<User> results = JPA.em().createQuery(cq).getResultList();
+	private static Long getSessionUserId() {
+		Long userId = -1L;
+		String userAuth = session("userAuth");
 
-		if (results == null || results.size() == 0) {
-			Logger.debug("user with id=" + id + " not found");
-			return badRequest("user with id=" + id + " not found");
+		if (userAuth != null) {
+			userId = Long.parseLong(userAuth);
 		}
-		else {
-			User user = results.get(0);
-			JPA.em().remove(user);
 
-			Logger.debug("deleted user with id=" + id);
-			return ok("deleted user with id=" + id);
-		}
+		return userId;
+	}
+
+	private static void setSessionUserId(Long userId) {
+		session("userAuth", String.valueOf(userId));
 	}
 }

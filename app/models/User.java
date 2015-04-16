@@ -11,15 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 
 import org.mindrot.jbcrypt.BCrypt;
-
-import play.Logger;
-import play.db.jpa.JPA;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,24 +49,6 @@ public class User {
 		this.password = BCrypt.hashpw("", this.salt);
 		this.authMethods = new ArrayList<AuthenticationMethod>();
 		this.completedChallenges = new HashSet<Challenge>();
-	}
-
-	@Transactional
-	public static User getUser(Long userId) {
-		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();
-		CriteriaQuery<User> cq = cb.createQuery(User.class);
-		Root<User> challengeRoot = cq.from(User.class);
-		cq.where(cb.equal(challengeRoot.get(User_.id), userId));
-		List<User> results = JPA.em().createQuery(cq).getResultList();
-
-		if (results == null || results.size() == 0) {
-			Logger.debug("user with id=" + userId + " not found");
-			return null;
-		}
-		else {
-			Logger.debug("found user with id=" + userId);
-			return results.get(0);
-		}
 	}
 
 	public boolean hasCompletedChallenge(Challenge challenge) {
