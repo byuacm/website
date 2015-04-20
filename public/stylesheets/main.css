@@ -27,12 +27,25 @@ a:hover {
   height: 400px;
 }
 
+.block-div {
+  padding: 0;
+}
+
+.btn {
+  border-radius: 0px;
+}
+
+.btn-primary {
+  border-color: transparent;
+  background-color: #56AEDA;
+}
+
 .center-text {
   text-align: center;
 }
 
-.block-div {
-  padding: 0;
+.container {
+  padding: 0px;
 }
 
 .white {
@@ -96,16 +109,27 @@ overflow: hidden;*/
   color: white;
 }
 
-.banner-image {
-  width: 100%;
-  overflow: hidden;
+.modal-body {
+  padding: 5px;
 }
 
-.banner-image img {
+.modal-content {
+  border-radius: 0px;
+}
+
+.modal-dialog {
+  margin-top: 150px;
+  width: 400px;
+}
+
+.modal-decoration {
+  height: 10px;
   width: 100%;
-  vertical-align: middle;
-  display: inline-block;
-  float: none;
+  background-color: #56AEDA;
+}
+
+.navbar-brand:hover {
+  color: white;
 }
 
 .nav-logo {
@@ -116,6 +140,8 @@ overflow: hidden;*/
   height: 100px;
   width: auto;
   margin-bottom: -50px;
+  position: relative;
+  z-index: 1;
 }
 
 .text {

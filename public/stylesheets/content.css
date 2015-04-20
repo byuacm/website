@@ -1,0 +1,25 @@
+.banner-image {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.banner-image img {
+  display: inline-block;
+  float: none;
+  width: 100%;
+}
+
+.banner-image .email-signup {
+  background-color: rgb(31,178,226);
+  color: white;
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+}
+
+.content-card {
+	background-color: white;
+	padding: 5px 20px;
+	margin-top: 10px;
+}

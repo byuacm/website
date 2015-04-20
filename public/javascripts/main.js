@@ -83,6 +83,7 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		window.onbeforeunload = function(event) {
 
 		};
+
 		loggedIn = true;
 	};
 	$scope.checkIn = function() {
@@ -95,7 +96,37 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		window.onbeforeunload = function(event) {
 
 		};
+		
 		loggedIn = false;
 	};
+
+	/* ------------- MODAL JAVASCRIPT ------------- */
+
+	// Add HTML files for the modal to this array.
+	$scope.modalHTMLFiles =
+    ['html/profile.html',
+    'html/email-list.html'];
+
+    var profile = {
+    	"username": "kpontius",
+    	"firstName": "Kyle",
+    	"lastName": "Pontius",
+    	"email": "kylepontius@example.com"
+    }
+
+	$scope.viewProfile = function() {
+		$scope.modalTitle = "Edit Your Profile";
+		$scope.modalCancelText = "Cancel";
+		$scope.modalSubmitText = "Update Profile";
+		$scope.modalHTML = $scope.modalHTMLFiles[0];
+		$scope.profile = profile;
+	}
+
+	$scope.emailSignup = function() {
+		$scope.modalTitle = "Join ACM Mailing List";
+		$scope.modalCancelText = "Cancel";
+		$scope.modalSubmitText = "Submit";
+		$scope.modalHTML = $scope.modalHTMLFiles[1];
+	}
   }
 ]);

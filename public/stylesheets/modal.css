@@ -1,0 +1,32 @@
+.modal-container {
+	width: 100%;
+	height: auto;
+	padding: 5px 15px;
+	background-color: white;
+}
+
+.modal-container h2 {
+	text-align: center;
+	margin-top: 0px;
+}
+
+.modal-container a {
+	color: black;
+	text-decoration: none;
+}
+
+.modal-input {
+	margin: 20px 0px;
+}
+
+.modal-input div {
+	display: inline-block;
+}
+
+.modal-input div:first-of-type {
+	width: 100px;
+}
+
+.modal-input input[type="text"] {
+	width: 225px;
+}
