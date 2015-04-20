@@ -43,7 +43,7 @@
         <li ng-class="{ active : isActive('challenges')}"><a href="#/challenges">Challenges</a></li>
         <li ng-class="{ active : isActive('partner')}"><a href="#/partner">Partner with Us</a></li>
         <li ng-class="{ active : isActive('roster')}"><a href="#/roster">Club Roster</a></li>
-        <li ng-class="{ active : isActive('profile')}"><a href="#/profile">Profile</a></li>
+        <li ng-class="{ active : isActive('profile')}"><a ng-click="viewProfile()" data-toggle="modal" data-target="#modal-view">Profile</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right navbar-collapse collapse" id="profile">
         <li ng-if="!isLoggedIn()"><a ng-click="register()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
@@ -57,5 +57,23 @@
 <div class="container">
 	<ui-view></ui-view>
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modal-view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-decoration"></div>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 class="modal-title" id="myModalLabel">{{modalTitle}}</h3>
+        </div>
+        <div class="modal-body" ng-include="modalHTML"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">{{modalCancelText}}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">{{modalSubmitText}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
