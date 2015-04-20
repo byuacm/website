@@ -132,7 +132,6 @@ overflow: hidden;*/
 
 .modal-content {
   border-radius: 0px;
-
 }
 
 .modal-dialog {
@@ -144,10 +143,6 @@ overflow: hidden;*/
   height: 10px;
   width: 100%;
   background-color: #56AEDA;
-}
-
-.modal-title {
-  
 }
 
 .nav-logo {
