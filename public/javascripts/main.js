@@ -104,13 +104,21 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 
 	// Add HTML files for the modal to this array.
 	$scope.modalHTMLFiles =
-    ['html/profile.html'];  	
+    ['html/profile.html',
+    'html/email-list.html']; 	
 
 	$scope.viewProfile = function() {
 		$scope.modalTitle = "Join ACM Club";
 		$scope.modalCancelText = "Cancel";
 		$scope.modalSubmitText = "Join ACM";
 		$scope.modalHTML = $scope.modalHTMLFiles[0];
+	}
+
+	$scope.emailSignup = function() {
+		$scope.modalTitle = "Join ACM Email List";
+		$scope.modalCancelText = "Cancel";
+		$scope.modalSubmitText = "Submit";
+		$scope.modalHTML = $scope.modalHTMLFiles[1];
 	}
   }
 ]);
