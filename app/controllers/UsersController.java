@@ -71,6 +71,12 @@ public class UsersController extends Controller {
 		}
 	}
 
+	public static Result logoutCas() {
+		setSessionUserId(-1L);
+		Logger.debug("logged user out of CAS");
+		return ok("logged out of CAS");
+	}
+
 	@Transactional
 	public static Result getProfiles() {
 		CriteriaBuilder cb = JPA.em().getCriteriaBuilder();

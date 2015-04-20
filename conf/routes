@@ -20,6 +20,7 @@ GET			/challenges/delete/:id		controllers.ChallengesController.deleteChallenge(i
 # User pages
 GET			/register/cas				controllers.UsersController.registerCas()
 GET			/login/cas					controllers.UsersController.loginCas()
+GET			/logout/cas					controllers.UsersController.logoutCas()
 GET			/profiles/getall			controllers.UsersController.getProfiles()
 GET			/profiles/get/:id			controllers.UsersController.getProfile(id: Long)
 GET			/profiles/getcurrent		controllers.UsersController.getProfile(id: Long ?= -1)
