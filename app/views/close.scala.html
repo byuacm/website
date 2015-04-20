@@ -8,9 +8,8 @@
 <body>
     <h2>@message</h2>
     <script>
-        window.setTimeout(function() {
-            window.close();
-        }, 1000);
+    	document.cookie = 'loggedIn="true";max-age=3600;path=/;';
+        window.close();
     </script>
 </body>
 </html>

@@ -32,24 +32,40 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 	}
 ])
 .controller('MainCtrl', [
-  '$scope',
-  '$state',
-  '$window',
-  function($scope, $state, $window, $cookies){
-	function checkCookie() {
-		return false;
-	}
+	'$scope',
+	'$state',
+	'$window',
+	'$cookieStore',
+	'$http',
+	function($scope, $state, $window, $cookieStore, $http){
 
-	var loggedIn = checkCookie();
+	$scope.checkLoggedIn = function() {
+  		$http.get('/profiles/getcurrent').success(function(data) {
+  			$scope.isLoggedIn = true;
+  		}).error(function(data) {
+  			$scope.isLoggedIn = false;
+  		});
+  	};
+
+  	$scope.testCookie = function() {
+  		var interval = setInterval(function() {
+			if ($cookieStore.get('loggedIn') === "true") {
+				clearInterval(interval);
+				$scope.isLoggedIn = true;
+				$scope.$apply();
+			}
+		}, 500);
+  	};
+
+  	$scope.isLoggedIn = $scope.checkLoggedIn();
+
 	$scope.isActive = function(state) {
 		return state === $state.current.name;
 	};
-	$scope.isLoggedIn = function() {
-		return loggedIn;
-	};
+
 	$scope.logIn = function() {
 		// check for cookie first
-		var window = $window.open(
+		var popup = $window.open(
 			'https://cas.byu.edu/cas/login?service=http://localhost:9000/login/cas',
 			'targetWindow',
 			'toolbar=no,' +
@@ -61,14 +77,12 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			'width=600,' +
 			'height=650');
 
-		window.onbeforeunload = function(event) {
-
-		};
-		loggedIn = true;
+		$scope.testCookie();
 	};
+
 	$scope.register = function() {
 		// check for cookie
-		var window = $window.open(
+		var popup = $window.open(
 			'https://cas.byu.edu/cas/login?service=http://localhost:9000/register/cas',
 			'targetWindow',
 			'toolbar=no,' +
@@ -80,24 +94,35 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 			'width=600,' +
 			'height=650');
 
-		window.onbeforeunload = function(event) {
-
-		};
-
-		loggedIn = true;
+		$scope.testCookie();
 	};
+
 	$scope.checkIn = function() {
 		// Check in to the current meeting - only if there is one
 	};
+
 	$scope.logOut = function() {
 		// check for NO cookie
-		var window = $window.open('https://cas.byu.edu/cas/logout');
+		var window = $window.open(
+			'https://cas.byu.edu/cas/logout',
+			'targetWindow',
+			'toolbar=no,' +
+			'location=no,' +
+			'status=no,' +
+			'menubar=no,' +
+			'scrollbars=yes,' +
+			'resizeable=yes,' +
+			'width=600,' +
+			'height=650');
 
-		window.onbeforeunload = function(event) {
+		setTimeout(function() {
+			window.close();
+		}, 200);
 
-		};
-		
-		loggedIn = false;
+		$http.get('/logout/cas').success(function(data) {
+  			$scope.checkLoggedIn();
+  			$cookieStore.remove('loggedIn');
+  		});
 	};
 
 	/* ------------- MODAL JAVASCRIPT ------------- */
