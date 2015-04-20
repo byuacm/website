@@ -108,9 +108,9 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
     'html/email-list.html']; 	
 
 	$scope.viewProfile = function() {
-		$scope.modalTitle = "Join ACM Club";
+		$scope.modalTitle = "Edit Your Profile";
 		$scope.modalCancelText = "Cancel";
-		$scope.modalSubmitText = "Join ACM";
+		$scope.modalSubmitText = "Update Profile";
 		$scope.modalHTML = $scope.modalHTMLFiles[0];
 	}
 
