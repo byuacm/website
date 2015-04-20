@@ -1,18 +1,13 @@
 .profile-container {
-	width: 300px;
+	width: 100%;
 	height: auto;
-	padding: 20px;
-	margin: 20px auto;
+	padding: 5px 15px;
 	background-color: white;
 }
 
 .profile-container h2 {
 	text-align: center;
-}
-
-.dues-container {
-	color: black;
-	margin-top: 20px;
+	margin-top: 0px;
 }
 
 .profile-container a {
@@ -30,4 +25,8 @@
 
 .profile-input div:first-of-type {
 	width: 100px;
+}
+
+.profile-input input[type="text"] {
+	width: 225px;
 }

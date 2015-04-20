@@ -83,6 +83,7 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		window.onbeforeunload = function(event) {
 
 		};
+
 		loggedIn = true;
 	};
 	$scope.checkIn = function() {
@@ -95,7 +96,21 @@ angular.module('acm', ['ui.router', 'ngCookies', 'ui.bootstrap'])
 		window.onbeforeunload = function(event) {
 
 		};
+		
 		loggedIn = false;
 	};
+
+	/* ------------- MODAL JAVASCRIPT ------------- */
+
+	// Add HTML files for the modal to this array.
+	$scope.modalHTMLFiles =
+    ['html/profile.html'];  	
+
+	$scope.viewProfile = function() {
+		$scope.modalTitle = "Join ACM Club";
+		$scope.modalCancelText = "Cancel";
+		$scope.modalSubmitText = "Join ACM";
+		$scope.modalHTML = $scope.modalHTMLFiles[0];
+	}
   }
 ]);

@@ -35,6 +35,15 @@ a:hover {
   padding: 0;
 }
 
+.btn {
+  border-radius: 0px;
+}
+
+.btn-primary {
+  border-color: transparent;
+  background-color: #56AEDA;
+}
+
 .white {
   color: white;
 }
@@ -115,6 +124,30 @@ overflow: hidden;*/
   padding: 10px;
   position: absolute;
   right: 0px;
+}
+
+.modal-body {
+  padding: 5px;
+}
+
+.modal-content {
+  border-radius: 0px;
+
+}
+
+.modal-dialog {
+  margin-top: 150px;
+  width: 400px;
+}
+
+.modal-decoration {
+  height: 10px;
+  width: 100%;
+  background-color: #56AEDA;
+}
+
+.modal-title {
+  
 }
 
 .nav-logo {
